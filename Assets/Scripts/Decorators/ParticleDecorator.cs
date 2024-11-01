@@ -1,27 +1,28 @@
 using UnityEngine;
-
+using UnityEditor;
+using Unity.Collections;
+using System.Collections.Generic;
 public class ParticleDecorator : BaseAbilityDecorator
 {
-    ParticleSystem paticleGenerator;
+    ParticleSystem particleGenerator;
     public ParticleDecorator(GameObject player) : base(player) { }
 
     public override void Apply(GameObject player)
     {
         base.Apply(player);
-        paticleGenerator = player.GetComponentInChildren<ParticleSystem>();
-        if (paticleGenerator != null)
+        particleGenerator = player.AddComponent<ParticleSystem>();
+        if (particleGenerator != null)
         {
-            paticleGenerator.Play();
+            particleGenerator.Play();
         }
 
     }
     public override void Remove(GameObject player)
     {
         base.Remove(player);
-        paticleGenerator = player.GetComponentInChildren<ParticleSystem>();
-        if (paticleGenerator != null)
+        if (particleGenerator != null)
         {
-            paticleGenerator.Stop();
+            
         }
     }
 

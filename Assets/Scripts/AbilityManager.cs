@@ -10,12 +10,15 @@ public class AbilityManager : MonoBehaviour
 
     float particlesStartTime;
     bool particlesActive;
+
+    bool shieldActive;
     // Start is called before the first frame update
     void Start()
     {
         activeDecorators = new Dictionary<string, PlayerAbility>();
         speedBoostActive = false;
         particlesActive = false;
+        shieldActive = false;
     }
 
     // Update is called once per frame
@@ -31,8 +34,11 @@ public class AbilityManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            RemoveDecorator("Shield");
-            ApplyDecorator("Particles", new ParticleDecorator(gameObject));
+            if (shieldActive == true)
+            {
+                RemoveDecorator("Shield");
+                ApplyDecorator("Particles", new ParticleDecorator(gameObject));
+            }
         }
         // Check if 5 seconds have passed for the speed boost
         if (speedBoostActive && Time.time - speedBoostStartTime >= 5f)
@@ -62,6 +68,10 @@ public class AbilityManager : MonoBehaviour
                 particlesStartTime = Time.time;
                 particlesActive = true;
             }
+            if (key == "Shield")
+            {
+                shieldActive = true;
+            }
         }
     }
     private void RemoveDecorator(string key)
@@ -73,6 +83,10 @@ public class AbilityManager : MonoBehaviour
             if (key == "SpeedBoost")
             {
                 speedBoostActive = false; // Reset speed boost flag
+            }
+            if (key == "Shield")
+            {
+                shieldActive = false;
             }
 
             activeDecorators.Remove(key); // Remove from active decorators
